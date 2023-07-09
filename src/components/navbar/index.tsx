@@ -32,6 +32,7 @@ export default function Navbar() {
             grid grid-cols-8 items-center
             relative z-0
             h-14 bg-background
+            md:h-16 lg:grid-cols-16 lg:h-20
         ">
             <Logo hidden={searchBar} />
             <NavButton hidden={searchBar} onClick={onNavClick} />

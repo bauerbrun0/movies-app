@@ -21,6 +21,7 @@ export default function NavButton({
             ${ hidden ? "hidden" : "" }
             col-span-5 grid grid-cols-5
             pl-4 pr-3 h-full bg-background items-center
+            md:hidden
         `}>
             <button
                 className="

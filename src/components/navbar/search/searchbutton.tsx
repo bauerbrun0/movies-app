@@ -22,6 +22,7 @@ export default function SearchButton({
         <div className={`
             ${ hidden ? "hidden": "" }
             grid items-center h-full bg-background
+            md:col-start-7 lg:hidden
         `}>
             <button
                 className="w-8 h-8 mx-auto"
@@ -32,7 +33,7 @@ export default function SearchButton({
                     alt="Search icon"
                     width={30}
                     height={30}
-                    className="w-6 h-6 mx-auto"
+                    className="w-6 h-6 mx-auto md:w-8 md:h-8"
                 />
             </button>
         </div>

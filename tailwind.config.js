@@ -18,7 +18,9 @@ module.exports = {
         'primary-button': '#c73b40',
         'secondary-button': '#fccb7e',
         'accent': '#ffffac',
-
+      },
+      gridTemplateColumns: {
+        '16': 'repeat(16, minmax(0, 1fr))'
       }
     },
   },
