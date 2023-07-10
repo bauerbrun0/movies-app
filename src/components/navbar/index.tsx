@@ -2,10 +2,6 @@
 
 import { useState, useRef } from "react";
 
-import MovieIcon from "../../../public/icons/movie.svg";
-import HomeIcon from "../../../public/icons/home.svg";
-import TvIcon from "../../../public/icons/tv.svg";
-
 import Logo from "./logo";
 import NavButton from "./navigation/navbutton";
 import NavList from "./navigation/navlist";
@@ -31,7 +27,7 @@ export default function Navbar() {
         <nav className="
             grid grid-cols-8 items-center
             relative z-0
-            h-14 bg-background
+            h-14 bg-background text-text
             md:h-16 lg:grid-cols-16 lg:h-20
         ">
             <Logo hidden={searchBar} />
@@ -41,9 +37,9 @@ export default function Navbar() {
             <ProfileButton hidden={searchBar} onClick={onProfileClick} />
 
             <NavList open={navDropDown} hidden={searchBar}>
-                <NavListItem text="All" icon={HomeIcon} iconAlt="home icon" linkHref="/" />
-                <NavListItem text="Movies" icon={MovieIcon} iconAlt="movie icon" linkHref="/" />
-                <NavListItem text="Tv Shows" icon={TvIcon} iconAlt="tv icon" linkHref="/" />
+                <NavListItem text="All" icon="/icons/home.svg" iconAlt="home icon" linkHref="/" />
+                <NavListItem text="Movies" icon="/icons/movie.svg" iconAlt="movie icon" linkHref="/" />
+                <NavListItem text="Tv Shows" icon="/icons/tv.svg" iconAlt="tv icon" linkHref="/" />
             </NavList>
 
             <ProfileDropDown open={profileDropDown} hidden={searchBar} />

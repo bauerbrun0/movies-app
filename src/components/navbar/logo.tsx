@@ -1,5 +1,4 @@
 import Image from "next/image";
-import LogoImage from "../../../public/images/logo.svg";
 
 export default function Logo(
     { hidden }: { hidden: boolean }
@@ -10,7 +9,7 @@ export default function Logo(
             w-full py-3 pl-3 bg-background lg:pl-0
         `}>
             <Image
-                src={LogoImage}
+                src="/images/logo.svg"
                 alt="Logo"
                 width={50}
                 height={50}

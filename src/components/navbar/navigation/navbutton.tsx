@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Image from "next/image";
-import ArrowDownIcon from "../../../../public/icons/arrow-down.svg";
 
 export default function NavButton({
     onClick,
@@ -34,7 +33,7 @@ export default function NavButton({
                     Tv Shows
                 </span>
                 <Image
-                    src={ArrowDownIcon}
+                    src="/icons/arrow-down.svg"
                     alt="arrow"
                     width={40}
                     height={40}

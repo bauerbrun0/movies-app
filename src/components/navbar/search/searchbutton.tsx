@@ -1,5 +1,4 @@
 import Image from "next/image";
-import SearchIcon from "../../../../public/icons/search.svg";
 import { RefObject } from "react";
 
 export default function SearchButton({
@@ -29,7 +28,7 @@ export default function SearchButton({
                 onClick={handleClick}
             >
                 <Image
-                    src={SearchIcon}
+                    src="/icons/search.svg"
                     alt="Search icon"
                     width={30}
                     height={30}

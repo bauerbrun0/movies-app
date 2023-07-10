@@ -1,5 +1,4 @@
 import Image from "next/image";
-import AvatarIcon from "../../../../public/icons/avatar.svg";
 
 export default function ProfileButton({
     onClick,
@@ -23,7 +22,7 @@ export default function ProfileButton({
                 onClick={onClick}
             >
                 <Image
-                    src={AvatarIcon}
+                    src="/icons/avatar.svg"
                     alt="avatar"
                     width={40}
                     height={40}
