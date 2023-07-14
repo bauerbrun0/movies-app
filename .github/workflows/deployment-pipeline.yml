@@ -1,0 +1,26 @@
+name: Deployment pipeline
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+        types: [opened, synchronize]
+
+jobs:
+    deployment_pipeline:
+        runs-on: ubuntu-22.04
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                node-version: lts/hydrogen
+            - name: Install dependencies
+              run: npm install
+            - name: Check style
+              run: npm run lint
+            - name: Run component tests
+              run: npm run cypress:component
+            - name: Deploy
+              if: ${{ github.event_name == 'push' }}
+              run: echo "No deployment yet."
