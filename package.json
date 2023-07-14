@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cypress:component": "tailwindcss -i ./src/app/globals.css -o ./cypress/globals.css && cypress run --component --browser chrome",
+    "cypress:component:open": "concurrently --kill-others \"tailwindcss -i ./src/app/globals.css -o ./cypress/globals.css --watch\" \"cypress open --component --browser chrome\""
   },
   "dependencies": {
     "@types/node": "20.3.3",
@@ -21,5 +23,9 @@
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.2",
     "typescript": "5.1.6"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "cypress": "^12.17.0"
   }
 }
