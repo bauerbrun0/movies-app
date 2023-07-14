@@ -6,15 +6,18 @@ export default function ProfileDropDown({
     hidden: boolean
 }) {
     return (
-        <div className={`
-            ${ hidden ? "hidden" : ""}
-            absolute right-0 top-full
-            grid grid-cols-1 
-            w-fit bg-neutral-700 rounded-md mr-2 text-md
-            transition-[opacity, visibility] ease-in duration-100 z-10
-            md:right-3
-            ${ open ? "visible opacity-100" : "invisible opacity-0" }
-        `}>
+        <div
+            data-test="profile-dropdown"
+            className={`
+                ${ hidden ? "hidden" : ""}
+                absolute right-0 top-full
+                grid grid-cols-1 
+                w-fit bg-neutral-700 rounded-md mr-2 text-md
+                transition-[opacity, visibility] ease-in duration-100 z-10
+                md:right-3
+                ${ open ? "visible opacity-100" : "invisible opacity-0" }
+            `}
+        >
             <div className="mx-3 mt-4 mb-0">
                 <span className="block mb-1">John Doe</span>
                 <span className="block font-bold text-xs">john.doe@example.com</span>

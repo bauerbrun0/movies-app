@@ -16,12 +16,15 @@ export default function NavButton({
     };
 
     return (
-        <div className={`
-            ${ hidden ? "hidden" : "" }
-            col-span-5 grid grid-cols-5
-            pl-4 pr-3 h-full bg-background items-center
-            md:hidden
-        `}>
+        <div
+            data-test="nav-button"
+            className={`
+                ${ hidden ? "hidden" : "" }
+                col-span-5 grid grid-cols-5
+                pl-4 pr-3 h-full bg-background items-center
+                md:hidden
+            `}
+        >
             <button
                 className="
                     col-span-3 grid grid-cols-4 items-center

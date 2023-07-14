@@ -8,12 +8,15 @@ export default function ProfileButton({
     hidden: boolean
 }) {
     return(
-        <div className={`
-            ${ hidden ? "hidden" : ""}
-            grid items-center
-            pr-2 h-full bg-background 
-            lg:pr-0
-        `}>
+        <div
+            data-test="profile-button"
+            className={`
+                ${ hidden ? "hidden" : ""}
+                grid items-center
+                pr-2 h-full bg-background 
+                lg:pr-0
+            `}
+        >
             <button
                 className="
                     w-9 h-9 mx-auto rounded-full bg-neutral-800

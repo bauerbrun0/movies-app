@@ -18,11 +18,14 @@ export default function SearchButton({
     };
 
     return (
-        <div className={`
-            ${ hidden ? "hidden": "" }
-            grid items-center h-full bg-background
-            md:col-start-7 lg:hidden
-        `}>
+        <div
+            data-test="search-button"
+            className={`
+                ${ hidden ? "hidden": "" }
+                grid items-center h-full bg-background
+                md:col-start-7 lg:hidden
+            `}
+        >
             <button
                 className="w-8 h-8 mx-auto"
                 onClick={handleClick}

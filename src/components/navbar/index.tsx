@@ -38,8 +38,8 @@ export default function Navbar() {
 
             <NavList open={navDropDown} hidden={searchBar}>
                 <NavListItem text="All" icon="/icons/home.svg" iconAlt="home icon" linkHref="/" />
-                <NavListItem text="Movies" icon="/icons/movie.svg" iconAlt="movie icon" linkHref="/" />
-                <NavListItem text="Tv Shows" icon="/icons/tv.svg" iconAlt="tv icon" linkHref="/" />
+                <NavListItem text="Movies" icon="/icons/movie.svg" iconAlt="movie icon" linkHref="/movies" />
+                <NavListItem text="Tv Shows" icon="/icons/tv.svg" iconAlt="tv icon" linkHref="/tv-shows" />
             </NavList>
 
             <ProfileDropDown open={profileDropDown} hidden={searchBar} />

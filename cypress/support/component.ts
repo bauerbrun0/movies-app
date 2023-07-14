@@ -14,8 +14,7 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-// removed
-// import './commands';
+import './commands';
 
 // Import compiled tailwind css:
 import '../globals.css';
