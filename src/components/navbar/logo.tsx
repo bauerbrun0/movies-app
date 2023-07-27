@@ -22,6 +22,7 @@ export default function Logo(
                     width={50}
                     height={50}
                     className="h-8 w-8 md:h-10 md:w-10 lg:h-11 lg:w-11"
+                    priority
                 />
             </Link>
         </div>

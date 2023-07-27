@@ -24,7 +24,7 @@ const toMovieOrTvShow = (object: unknown): Movie | TvShow => {
     const mediaType = parseMediaType(object.media_type);
     let title: string;
 
-    // For movies the title property is called title, for tv shows it's called name
+    // A movie's title property is called title, a tv show's is called name
     // Blame TMDB, not me.
     if (mediaType === MediaType.Movie && 'title' in object) {
         title = parseTitle(object.title);
@@ -34,7 +34,7 @@ const toMovieOrTvShow = (object: unknown): Movie | TvShow => {
         throw new Error('Incorrect or missing fields');
     }
 
-    if (!('id' in object) || !('poster_path' in object)) {
+    if (!('id' in object) || !('poster_path' in object) || !('backdrop_path' in object)) {
         throw new Error('Some fields are missing');
     }
 
@@ -42,6 +42,7 @@ const toMovieOrTvShow = (object: unknown): Movie | TvShow => {
         title,
         id: parseId(object.id),
         posterPath: parsePosterPath(object.poster_path),
+        backdropPath: parseBackdropPath(object.backdrop_path),
         mediaType: mediaType
     };
 };
@@ -75,6 +76,14 @@ const parsePosterPath = (posterPath: unknown): string => {
     }
 
     return posterPath;
+};
+
+const parseBackdropPath = (backdropPath: unknown): string => {
+    if(!isString(backdropPath)) {
+        throw new Error('Incorrect backdrop path');
+    }
+
+    return backdropPath;
 };
 
 const isString = (param: unknown): param is string => {

@@ -20,7 +20,11 @@ module.exports = {
         'accent': '#ffffac',
       },
       gridTemplateColumns: {
-        '16': 'repeat(16, minmax(0, 1fr))'
+        '16': 'repeat(16, minmax(0, 1fr))',
+        'list-header': 'auto repeat(15, 1fr)'
+      },
+      gridColumn: {
+        'span-13': 'span 13 / span 13'
       }
     },
   },

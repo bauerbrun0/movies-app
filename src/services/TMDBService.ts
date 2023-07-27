@@ -1,12 +1,10 @@
-'server-only';
+import 'server-only';
 
 import { toMovieOrTvShowArray } from "@/utils";
 import { Movie, TvShow } from "@/types";
+import { TMDB_BASE_URL } from '@/constants';
 
-
-const BASE_URL = "https://api.themoviedb.org/3";
-
-const options = {
+const baseOptions = {
     headers: {
         accept: 'application/json',
         Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`
@@ -14,7 +12,12 @@ const options = {
 };
 
 const getTrendingAll = async (): Promise<(Movie | TvShow)[]> => {
-    const res = await fetch(BASE_URL + "/trending/all/day", options);
+    const res = await fetch(TMDB_BASE_URL + "/trending/all/day", {
+        ...baseOptions,
+        next: {
+            revalidate: 60 * 60 * 24
+        }
+    });
 
     if(!res.ok) {
         throw new Error(`Couldn't fetch data`);

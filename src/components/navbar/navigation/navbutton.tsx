@@ -33,7 +33,7 @@ export default function NavButton({
                 onClick={handleClick}
             >
                 <span className="col-span-3 text-md font-bold">
-                    Tv Shows
+                    All
                 </span>
                 <Image
                     src="/icons/arrow-down.svg"
@@ -44,6 +44,7 @@ export default function NavButton({
                         inline h-3 w-3 justify-self-end self-center transition-transform
                         ${ pressed ? "rotate-180" : "rotate-0" }
                     `}
+                    priority
                 />
             </button>
         </div>

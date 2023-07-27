@@ -30,6 +30,7 @@ export default function ProfileButton({
                     width={40}
                     height={40}
                     className="w-6 h-6 mx-auto md:w-8 md:h-8"
+                    priority
                 />
             </button>
         </div>

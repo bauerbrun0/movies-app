@@ -36,6 +36,7 @@ export default function SearchButton({
                     width={30}
                     height={30}
                     className="w-6 h-6 mx-auto md:w-8 md:h-8"
+                    priority
                 />
             </button>
         </div>

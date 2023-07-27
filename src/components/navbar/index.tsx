@@ -26,7 +26,7 @@ export default function Navbar() {
     return (
         <nav className="
             grid grid-cols-8 items-center
-            relative z-0
+            relative z-10 [transform:translate3d(0,0,0)]
             h-14 bg-background text-text
             md:h-16 lg:grid-cols-16 lg:h-20
         ">

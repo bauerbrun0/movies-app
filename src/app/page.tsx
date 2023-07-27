@@ -1,11 +1,14 @@
 import TMDBService from "@/services/TMDBService";
+import List from "@/components/list";
 
 export default async function HomePage() {
 	const trendingShows = await TMDBService.getTrendingAll();
-	console.log(trendingShows);
-    return(
+
+	return(
 		<div>
-	        <h1>Home Page</h1>
+			<List items={trendingShows} title="Trending" href="/all/trending"/>
+			<List items={trendingShows} title="Trending" href="/all/trending" listType="horizontal"/>
+			<List items={trendingShows} title="Trending" href="/all/trending"/>
 		</div>
     );
 }
