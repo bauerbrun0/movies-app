@@ -1,4 +1,4 @@
-export default function ProfileDropDown({
+export default function ProfileDropdown({
     open,
     hidden
 }: {

@@ -1,5 +1,5 @@
 import TMDBService from "@/services/TMDBService";
-import List from "@/components/list";
+import List from "@/components/List";
 
 export default async function HomePage() {
 	const trendingShows = await TMDBService.getTrendingAll();

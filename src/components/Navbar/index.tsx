@@ -2,14 +2,14 @@
 
 import { useState, useRef } from "react";
 
-import Logo from "./logo";
-import NavButton from "./navigation/navbutton";
-import NavList from "./navigation/navlist";
-import NavListItem from "./navigation/navlistitem";
-import SearchButton from "./search/searchbutton";
-import SearchBar from "./search/searchbar";
-import ProfileButton from "./profile/profilebutton";
-import ProfileDropDown from "./profile/profiledropdown";
+import Logo from "./Logo";
+import NavButton from "./NavButton";
+import NavList from "./NavList";
+import NavListItem from "./NavListItem";
+import SearchButton from "./SearchButton";
+import SearchBar from "./SearchBar";
+import ProfileButton from "./ProfileButton";
+import ProfileDropDown from "./ProfileDropdown";
 
 
 export default function Navbar() {

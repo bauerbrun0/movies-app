@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Movie, TvShow } from "@/types";
-import ListItem from "./listitem";
+import ListItem from "./ListItem";
 
 export default function List({
     items,
