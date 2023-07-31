@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { Movie, TvShow } from "@/types";
+import { MediaItem, MediaType } from "@/types";
 import { TMDB_IMAGE_BASE_URL } from "@/constants";
 
 export default function ListItem({
@@ -10,15 +10,15 @@ export default function ListItem({
     refCallback,
     refIndex
 }: {
-    item: Movie | TvShow,
-    imageType: "poster" | "backdrop",
-    refCallback: (element: HTMLAnchorElement | null) => void,
-    refIndex: number
+    item: MediaItem;
+    imageType: "poster" | "backdrop";
+    refCallback: (element: HTMLAnchorElement | null) => void;
+    refIndex: number;
 }) {
     return (
         <Link
             className="inline-block max-w-fit"
-            href='/'
+            href={`/${item.mediaType === MediaType.Movie ? "movies" : "tv-shows"}/${item.id}`}
             ref={refCallback}
             data-refindex={refIndex}
         >

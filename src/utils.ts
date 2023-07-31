@@ -1,78 +1,150 @@
-import { Movie, TvShow, MediaType } from "./types";
+import { Logo, MediaType, TMDBMediaItem } from "./types";
 
-export const toMovieOrTvShowArray = (object: unknown): (Movie | TvShow)[] => {
-    if (!object || typeof object !== 'object') {
-        throw new Error('Missing results array');
+
+export const toTMDBMediaItems = (object: unknown): TMDBMediaItem[] => {
+    if (!object || typeof object !== "object") {
+        throw new Error("Incorrect or missing data");
     }
 
     if (!isArray(object)) {
-        throw new Error('results is not an array');
+        throw new Error("Object is not an array");
     }
 
-    return object.map(v => toMovieOrTvShow(v));
+    return object.map(element => toTMDBMediaItem(element));
 };
 
-const toMovieOrTvShow = (object: unknown): Movie | TvShow => {
-    if (!object || typeof object !== 'object') {
-        throw new Error('Incorrect or missing data');
+export const toLogos = (object: unknown): Logo[] => {
+    if (!object || typeof object !== "object") {
+        throw new Error("Incorrect or missing data");
     }
 
-    if (!('media_type' in object)) {
-        throw new Error('Missing media type');
+    if (!isArray(object)) {
+        throw new Error("Object is not an array");
     }
 
+    return object.map(element => toLogo(element));
+};
+
+const toTMDBMediaItem = (object: unknown): TMDBMediaItem => {
+    if (!object || typeof object !== "object") {
+        throw new Error("Incorrect or missing data");
+    }
+
+    // Parsing common fields
+    if (!("id" in object)) {
+        throw new Error("Missing field 'id'");
+    }
+    const id = parseId(object.id);
+
+    if (!("overview" in object)) {
+        throw new Error("Missing field 'overview'");
+    }
+    const overview = parseOverview(object.overview);
+
+    if (!("vote_average" in object)) {
+        throw new Error("Missing field 'vote_average'");
+    }
+    const voteAverage = parseVoteAverage(object.vote_average);
+
+    if (!("poster_path" in object)) {
+        throw new Error("Missing field 'poster_path'");
+    }
+    const posterPath = parsePosterPath(object.poster_path);
+
+    if (!("backdrop_path" in object)) {
+        throw new Error("Missing field 'backdrop_path'");
+    }
+    const backdropPath = parseBackdropPath(object.backdrop_path);
+
+    if (!("media_type" in object)) {
+        throw new Error("Missing field 'media_type'");
+    }
     const mediaType = parseMediaType(object.media_type);
+
+
+    // Parsing unique fields
     let title: string;
+    let releaseDate: string;
 
-    // A movie's title property is called title, a tv show's is called name
-    // Blame TMDB, not me.
-    if (mediaType === MediaType.Movie && 'title' in object) {
-        title = parseTitle(object.title);
-    } else if (mediaType === MediaType.TvShow && 'name' in object) {
-        title = parseTitle(object.name);
-    } else {
-        throw new Error('Incorrect or missing fields');
-    }
-
-    if (!('id' in object) || !('poster_path' in object) || !('backdrop_path' in object)) {
-        throw new Error('Some fields are missing');
+    switch (mediaType) {
+        case MediaType.Movie: {
+            if (!("title" in object)) {
+                throw new Error("Missing field 'title'");
+            }
+            title = parseTitle(object.title);
+            if (!("release_date" in object)) {
+                throw new Error("Missing field 'release_date'");
+            }
+            releaseDate = parseReleaseDate(object.release_date);
+            break;
+        }
+        case MediaType.TvShow: {
+            if (!("name" in object)) {
+                throw new Error("Missing field 'name'");
+            }
+            title = parseTitle(object.name);
+            if (!("first_air_date" in object)) {
+                throw new Error("Missing field 'first_air_date'");
+            }
+            releaseDate = parseReleaseDate(object.first_air_date);
+            break;
+        }
     }
 
     return {
-        title,
-        id: parseId(object.id),
-        posterPath: parsePosterPath(object.poster_path),
-        backdropPath: parseBackdropPath(object.backdrop_path),
-        mediaType: mediaType
+        id, title, releaseDate, overview, voteAverage, posterPath, backdropPath, mediaType
     };
 };
 
-const parseMediaType = (mediaType: unknown): MediaType => {
-    if(!isString(mediaType) || !isMediaType(mediaType)) {
-        throw new Error('Incorrect media type');
+const toLogo = (object: unknown): Logo => {
+    if (!object || typeof object !== "object") {
+        throw new Error("Incorrect or missing data");
     }
 
-    return mediaType;
+    if (!("iso_639_1" in object)) {
+        throw new Error("Missing field 'iso_639_1'");
+    }
+    let language = parseLanguage(object.iso_639_1);
+
+    if (!("file_path" in object)) {
+        throw new Error("Missing field 'file_path'");
+    }
+    let path = parsePath(object.file_path);
+
+    return {
+        language, path
+    };
 };
 
-const parseTitle = (title: unknown): string => {
-    if(!isString(title)) {
-        throw new Error('Incorrect title');
-    }
-    return title;
-};
+// Parsers
 
 const parseId = (id: unknown): number => {
     if(!isNumber(id)) {
-        throw new Error('Incorrect id');
+        throw new Error("Incorrect id");
     }
 
     return id;
 };
 
+const parseOverview = (overview: unknown): string => {
+    if (!isString(overview)) {
+        throw new Error("Incorrect overview");
+    }
+
+    return overview;
+};
+
+const parseVoteAverage = (voteAverage: unknown): number => {
+    if(!isNumber(voteAverage)) {
+        throw new Error("Incorrect voteAverage");
+    }
+
+    return voteAverage;
+};
+
 const parsePosterPath = (posterPath: unknown): string => {
     if(!isString(posterPath)) {
-        throw new Error('Incorrect poster path');
+        throw new Error("Incorrect poster path");
     }
 
     return posterPath;
@@ -80,18 +152,71 @@ const parsePosterPath = (posterPath: unknown): string => {
 
 const parseBackdropPath = (backdropPath: unknown): string => {
     if(!isString(backdropPath)) {
-        throw new Error('Incorrect backdrop path');
+        throw new Error("Incorrect backdrop path");
     }
 
     return backdropPath;
 };
 
-const isString = (param: unknown): param is string => {
-    return typeof param === 'string' || param instanceof String;
+const parseMediaType = (mediaType: unknown): MediaType => {
+    if(!isString(mediaType) || !isMediaType(mediaType)) {
+        throw new Error("Incorrect media type");
+    }
+
+    return mediaType;
+};
+
+const parseTitle = (title: unknown): string => {
+    if(!isString(title)) {
+        throw new Error("Incorrect title");
+    }
+    return title;
+};
+
+const parseReleaseDate = (releaseDate: unknown): string => {
+    if (!isString(releaseDate)) {
+        throw new Error("Incorrect releaseDate");
+    }
+
+    return releaseDate;
+};
+
+const parseLanguage = (language: unknown): string | null=> {
+    if (language === null) {
+        return language;
+    }
+
+    if (isString(language)) {
+        return language;
+    }
+
+    throw new Error("Incorrect language");
+};
+
+const parsePath = (path: unknown): string => {
+    if (!isString(path)) {
+        throw new Error("Incorrect path");
+    }
+
+    return path;
+};
+
+export const parseTagline = (tagline: unknown): string => {
+    if (!isString(tagline)) {
+        throw new Error("Incorrect tagline");
+    }
+
+    return tagline;
+};
+
+// Typeguards
+
+export const isString = (param: unknown): param is string => {
+    return typeof param === "string" || param instanceof String;
 };
 
 const isNumber = (param: unknown): param is number => {
-    return typeof param === 'number' || param instanceof Number;
+    return typeof param === "number" || param instanceof Number;
 };
 
 const isMediaType = (param: string): param is MediaType => {

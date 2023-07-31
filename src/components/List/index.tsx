@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Movie, TvShow } from "@/types";
+import { MediaItem } from "@/types";
 import ListItem from "./ListItem";
 
 export default function List({
@@ -12,10 +12,10 @@ export default function List({
     listType = "vertical",
     href
 }: {
-    items: (Movie | TvShow) [],
-    title: string,
-    listType?: "vertical" | "horizontal"
-    href: string
+    items: MediaItem[];
+    title: string;
+    listType?: "vertical" | "horizontal";
+    href: string;
 }) {
     const listItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
     const visibilities = useRef<boolean[]>([]);
@@ -99,7 +99,7 @@ export default function List({
     };
 
     return (
-        <div className="my-4 first:mt-0 md:my-8">
+        <div className="my-4 md:my-8">
             <div className="grid grid-cols-8 items-end p-3 md:grid-cols-list-header md:pb-4">
                 <h2 className="col-span-5 inline text-xl font-medium md:col-span-1 lg:text-2xl">{title}</h2>
                 <Link className="
