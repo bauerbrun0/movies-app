@@ -1,4 +1,4 @@
-import { Logo, MediaType, TMDBMediaItem } from "./types";
+import { Genre, Logo, MediaType, TMDBMediaItem } from "./types";
 
 
 export const toTMDBMediaItems = (object: unknown): TMDBMediaItem[] => {
@@ -23,6 +23,18 @@ export const toLogos = (object: unknown): Logo[] => {
     }
 
     return object.map(element => toLogo(element));
+};
+
+export const toGenres = (object: unknown): Genre[] => {
+    if (!object || typeof object !== "object") {
+        throw new Error("Incorrect or missing data");
+    }
+
+    if (!isArray(object)) {
+        throw new Error("Object is not an array");
+    }
+
+    return object.map(element => toGenre(element));
 };
 
 const toTMDBMediaItem = (object: unknown): TMDBMediaItem => {
@@ -104,15 +116,35 @@ const toLogo = (object: unknown): Logo => {
     if (!("iso_639_1" in object)) {
         throw new Error("Missing field 'iso_639_1'");
     }
-    let language = parseLanguage(object.iso_639_1);
+    const language = parseLanguage(object.iso_639_1);
 
     if (!("file_path" in object)) {
         throw new Error("Missing field 'file_path'");
     }
-    let path = parsePath(object.file_path);
+    const path = parsePath(object.file_path);
 
     return {
         language, path
+    };
+};
+
+const toGenre = (object: unknown): Genre => {
+    if (!object || typeof object !== "object") {
+        throw new Error("Incorrect or missing data");
+    }
+
+    if (!("id" in object)) {
+        throw new Error("Missing filed 'id'");
+    }
+    if (!("name" in object)) {
+        throw new Error("Missing field 'name'");
+    }
+
+    const id = parseId(object.id);
+    const name = parseName(object.name);
+
+    return {
+        id, name
     };
 };
 
@@ -207,6 +239,14 @@ export const parseTagline = (tagline: unknown): string => {
     }
 
     return tagline;
+};
+
+const parseName = (name: unknown): string => {
+    if (!isString(name)) {
+        throw new Error("Incorrect name");
+    }
+
+    return name;
 };
 
 // Typeguards

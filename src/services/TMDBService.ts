@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { MediaItem, MediaType } from '@/types';
-import { toTMDBMediaItems, toLogos, parseTagline } from "@/utils";
+import { Genre, MediaItem, MediaType } from '@/types';
+import { toTMDBMediaItems, toLogos, parseTagline, toGenres } from "@/utils";
 import { TMDB_BASE_URL, SECONDS_IN_A_DAY } from '@/constants';
 
 const baseOptions = {
@@ -11,7 +11,7 @@ const baseOptions = {
     }
 };
 
-const getTrendingAll = async (timeWindow: "day" | "week") => {
+const getTrendingAll = async (timeWindow: "day" | "week"): Promise<MediaItem[]> => {
     const res = await fetch(`${TMDB_BASE_URL}/trending/all/${timeWindow}`, {
         ...baseOptions,
         next: {
@@ -76,8 +76,38 @@ const getTagline = async (mediaId: number, mediaType: MediaType): Promise<string
     return tagline;
 };
 
+const getGenres = async (mediaType: MediaType): Promise<Genre[]> => {
+    const res = await fetch(
+        `${TMDB_BASE_URL}/genre/${mediaType === MediaType.Movie ? "movie" : "tv"}/list`
+        , baseOptions
+    );
+
+    if (!res.ok) {
+        throw new Error("Couldn't fetch data");
+    }
+
+    const json = await res.json();
+    const genres = toGenres(json.genres);
+
+    return genres;
+};
+
+const getAllGenres = async (): Promise<Genre[]> => {
+    const movieGenres = await getGenres(MediaType.Movie);
+    const tvShowGenre = await getGenres(MediaType.TvShow);
+
+    const allGenres = movieGenres;
+    tvShowGenre.forEach(newGenre => {
+        if(!allGenres.find(genre => genre.id === newGenre.id)) {
+            allGenres.push(newGenre);
+        }
+    });
+
+    return allGenres.sort((a, b) => a.id - b.id);
+};
+
 const TMDBService = {
-    getTrendingAll, getLogoPath, getTagline
+    getTrendingAll, getLogoPath, getTagline, getGenres, getAllGenres
 };
 
 export default TMDBService;
