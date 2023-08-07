@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { MediaItem } from "@/types";
 import ListItem from "./ListItem";
+import { useVisibilitiesRef } from "@/hooks";
 
 export default function List({
     items,
@@ -18,71 +19,40 @@ export default function List({
     href: string;
 }) {
     const listItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
-    const visibilities = useRef<boolean[]>([]);
     const leftItemIndex = useRef(-1);
     const rightItemIndex = useRef(-1);
     const [leftButtonDisabled, setLeftButtonDisabled] = useState(true);
     const [rightButtonDisabled, setRightButtonDisabled] = useState(false);
 
-    // useEffect() for starting the IntersectionObserver after the first render
-    useEffect(() => {
-        const observerOptions = {
-            root: null,
-            rootMargin: '100% 0% 100% 0%',  // observing intersections only in the horizontal direction
-            threshold: 1.0
-        };
+    const visibilitiesChangedCallback = () => {
+        updateOuterItems();
+        updateButtons();
+    };
+    const visibilities = useVisibilitiesRef(listItemRefs, visibilitiesChangedCallback, "x");
 
-        const observerCallback = ((observerEntries: IntersectionObserverEntry[]) => {
-            let entries = observerEntries.map(observerEntry => {
-                const refIndex = observerEntry.target.getAttribute('data-refindex');
-                return {
-                    refIndex,
-                    visible: observerEntry.isIntersecting
-                };
-            });
-
-            // updating visibilities array
-            entries.forEach(entry => {
-                if (entry.refIndex === null || isNaN(Number(entry.refIndex))) {
-                    throw new Error('Incorrect or missing data-refindex property.');
-                }
-
-                const refIndex = Number(entry.refIndex);
-                visibilities.current[refIndex] = entry.visible;
-            });
-
-            // updating leftItem and rightItem
-            leftItemIndex.current = visibilities.current.findIndex(visibility => visibility) - 1;
-            for (let i = visibilities.current.length - 1; i >= 0; i--) {
-                if (visibilities.current[i] === true) {
-                    rightItemIndex.current = i + 1;
-                    break;
-                }
+    const updateOuterItems = () => {
+        leftItemIndex.current = visibilities.current.findIndex(visibility => visibility) - 1;
+        // No findLastIndex() for all browsers
+        for (let i = visibilities.current.length - 1; i >= 0; i--) {
+            if (visibilities.current[i] === true) {
+                rightItemIndex.current = i + 1;
+                break;
             }
+        }
+    };
 
-            // updating UI accordingly
-            if (leftItemIndex.current >= 0) {
-                setLeftButtonDisabled(false);
-            } else {
-                setLeftButtonDisabled(true);
-            }
-            if (rightItemIndex.current < listItemRefs.current.length) {
-                setRightButtonDisabled(false);
-            } else {
-                setRightButtonDisabled(true);
-            }
-        });
-
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
-        // listItemRefs.current[] contains all HTMLAnchorElements at this point
-        listItemRefs.current.forEach(element => {
-            if (element) {
-                observer.observe(element);
-            }
-        });
-
-        return () => observer.disconnect();
-    }, [listItemRefs, leftItemIndex, rightItemIndex]);
+    const updateButtons = () => {
+        if (leftItemIndex.current >= 0) {
+            setLeftButtonDisabled(false);
+        } else {
+            setLeftButtonDisabled(true);
+        }
+        if (rightItemIndex.current < listItemRefs.current.length) {
+            setRightButtonDisabled(false);
+        } else {
+            setRightButtonDisabled(true);
+        }
+    };
 
     const onClickLeft = () => {
         const leftItem = listItemRefs.current[leftItemIndex.current];
